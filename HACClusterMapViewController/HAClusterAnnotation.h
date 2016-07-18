@@ -19,6 +19,9 @@
 @property (assign, nonatomic) UIColor* fillColor;
 @property (assign, nonatomic) NSInteger index;
 @property (copy, nonatomic) NSMutableArray *indexes;
+@property (assign, nonatomic) BOOL isMedical;
+@property (assign, nonatomic) BOOL isRecreational;
+@property (assign, nonatomic) BOOL isVerified;
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate count:(NSInteger)count index:(NSInteger)index;
 
