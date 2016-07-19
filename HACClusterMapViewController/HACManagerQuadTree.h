@@ -16,6 +16,9 @@
 #define kTitle @"title"
 #define kSubtitle @"subtitle"
 #define kIndex @"index"
+#define kIsMedical @"medical"
+#define kIsRecreational @"recreational"
+#define kIsVerified @"verified"
 
 IB_DESIGNABLE
 @protocol HACManagerQuadTreeDelegate <NSObject>

@@ -13,6 +13,9 @@ typedef struct HACItemInfo {
     char* itemTitle;
     char* itemSubtitle;
     char* itemIndex;
+    char* isMedical;
+    char* isRecreational;
+    char* isVerified;
 } HACHItemInfo;
 
 HACQuadTreeNodeData HACDataFromLine(NSString *line)
@@ -35,6 +38,18 @@ HACQuadTreeNodeData HACDataFromLine(NSString *line)
         NSString *index = [components[3] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         info->itemIndex = malloc(sizeof(char) * index.length + 1);
         strncpy(info->itemIndex, [index UTF8String], index.length + 1);
+        
+        NSString *medical = [components[4] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        info->isMedical = malloc(sizeof(char) * medical.length + 1);
+        strncpy(info->isMedical, [medical UTF8String], medical.length + 1);
+        
+        NSString *recreational = [components[5] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        info->isRecreational = malloc(sizeof(char) * recreational.length + 1);
+        strncpy(info->isRecreational, [recreational UTF8String], recreational.length + 1);
+        
+        NSString *verified = [components[6] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        info->isVerified = malloc(sizeof(char) * verified.length + 1);
+        strncpy(info->isVerified, [verified UTF8String], verified.length + 1);
     }
     
     return HACQuadTreeNodeDataMake(latitude, longitude, info);
@@ -135,7 +150,11 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kLatitude]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kTitle]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIndex]]];
+        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsMedical]]];
+        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsRecreational]]];
+        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsVerified]]];
         [line appendString:[NSString stringWithFormat:@"%@",   [d valueForKey:kSubtitle]]];
+        
         [annotationArray addObject:line];
     }
     return [[NSArray alloc]initWithArray:annotationArray];
@@ -170,6 +189,9 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
             NSMutableArray *titles = [[NSMutableArray alloc] init];
             NSMutableArray *subtitles = [[NSMutableArray alloc] init];
             NSMutableArray *indexes = [[NSMutableArray alloc] init];
+            NSMutableArray *isMedical = [[NSMutableArray alloc] init];
+            NSMutableArray *isRecreational = [[NSMutableArray alloc] init];
+            NSMutableArray *isVerified = [[NSMutableArray alloc] init];
             
             HACQuadTreeGatherDataInRange(self.root, HACBoundingBoxForMapRect(mapRect), ^(HACQuadTreeNodeData data) {
                 totalX += data.x;
@@ -182,6 +204,9 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 if (!example) {
                     [indexes addObject:[NSString stringWithFormat:@"%s", info.itemIndex]];
                 }
+                [isMedical addObject:@(info.isMedical)];
+                [isRecreational addObject:@(info.isRecreational)];
+                [isVerified addObject:@(info.isVerified)];
             });
             
             cont++;
@@ -190,6 +215,10 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 HAClusterAnnotation *annotation = [[HAClusterAnnotation alloc] initWithCoordinate:coordinate count:count index:[[indexes lastObject] integerValue]];
                 annotation.indexes = [[NSMutableArray alloc]initWithArray:indexes];
                 annotation.title = [titles lastObject];
+                annotation.isMedical = [[isMedical lastObject] boolValue];
+                annotation.isRecreational = [[isRecreational lastObject] boolValue];;
+                annotation.isVerified = [[isVerified lastObject] boolValue];;
+                
                 ![[subtitles lastObject]isEqualToString:@""] ? (annotation.subtitle = [subtitles lastObject]) : (annotation.subtitle = nil);
                 [clusteredAnnotations addObject:annotation];
                 
