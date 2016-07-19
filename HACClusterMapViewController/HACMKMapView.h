@@ -17,7 +17,7 @@ IB_DESIGNABLE
 @protocol HACMKMapViewDelegate <NSObject>
 
 @optional
-- (void)mapView:(HACMKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
+- (void)regionWillChangeAnimated:(BOOL)animated;
 - (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView annotation:(HAClusterAnnotation *)annotation;
 - (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView clusteredAnnotation:(HAClusterAnnotation *)annotation;
 - (UIColor*)fillColorForAnnotation:(HAClusterAnnotation *)annotation;

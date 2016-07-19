@@ -38,7 +38,9 @@
 #pragma mark - MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-    [_mapDelegate mapView:self regionWillChangeAnimated:animated];
+    if ([_mapDelegate respondsToSelector:@selector(regionWillChangeAnimated:)]) {
+        [_mapDelegate regionWillChangeAnimated:animated];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
