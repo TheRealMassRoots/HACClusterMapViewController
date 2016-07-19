@@ -216,8 +216,8 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 annotation.indexes = [[NSMutableArray alloc]initWithArray:indexes];
                 annotation.title = [titles lastObject];
                 annotation.isMedical = [[isMedical lastObject] boolValue];
-                annotation.isRecreational = [[isRecreational lastObject] boolValue];;
-                annotation.isVerified = [[isVerified lastObject] boolValue];;
+                annotation.isRecreational = [[isRecreational lastObject] boolValue];
+                annotation.isVerified = [[isVerified lastObject] boolValue];
                 
                 ![[subtitles lastObject]isEqualToString:@""] ? (annotation.subtitle = [subtitles lastObject]) : (annotation.subtitle = nil);
                 [clusteredAnnotations addObject:annotation];
