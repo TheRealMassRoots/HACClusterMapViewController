@@ -37,6 +37,10 @@
 
 #pragma mark - MKMapViewDelegate
 
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+    [_mapDelegate mapView:self regionWillChangeAnimated:animated];
+}
+
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     [[NSOperationQueue new] addOperationWithBlock:^{
         double scale = self.bounds.size.width / self.visibleMapRect.size.width;
@@ -46,55 +50,64 @@
     }];
 }
 
-
-
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
-    if ([annotation isKindOfClass:[MKUserLocation class]])
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
-    if (![annotation isKindOfClass:[HAClusterAnnotation class]])
+    }
+    
+    if (![annotation isKindOfClass:[HAClusterAnnotation class]]) {
         return nil;
+    }
+    
     static NSString *const HACAnnotatioViewReuseID = @"HACAnnotatioViewReuseID";
     HAClusterAnnotationView *annotationView = (HAClusterAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:HACAnnotatioViewReuseID];
     
     UIColor * fillColor= Nil;
     if (!annotationView) {
+        if ([_mapDelegate respondsToSelector:@selector(fillColorForAnnotation:)]) {
+            fillColor = [_mapDelegate fillColorForAnnotation:annotation];
+        }
         
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(fillColorForAnnotation:)]) {
-            fillColor = [self.mapDelegate fillColorForAnnotation:annotation];
-            
-        }
         if (!fillColor) {
             fillColor= self.backgroundAnnotation;
         }
+        
         annotationView = [[HAClusterAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:HACAnnotatioViewReuseID borderColor:self.borderAnnotation backgroundColor:fillColor textColor:self.textAnnotation];
-    }else{
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(fillColorForAnnotation:)]) {
-            fillColor = [self.mapDelegate fillColorForAnnotation:annotation];
-            
+    }
+    else {
+        if ([_mapDelegate respondsToSelector:@selector(fillColorForAnnotation:)]) {
+            fillColor = [_mapDelegate fillColorForAnnotation:annotation];
         }
+        
         if (!fillColor) {
             fillColor= self.backgroundAnnotation;
         }
+        
         annotationView.circleBackgroundColor = fillColor;
-
     }
+    
     annotationView.circleBorderColor = self.borderAnnotation;
     annotationView.circleTextColor = self.textAnnotation;
     annotationView.count = [(HAClusterAnnotation *)annotation count];
     annotationView.canShowCallout = YES;
     if (annotationView.count == 1) {
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(viewForAnnotationView:annotation:)]) {
-            [self.mapDelegate viewForAnnotationView:annotationView annotation:annotation];
-        }else{
+        if ([_mapDelegate respondsToSelector:@selector(viewForAnnotationView:annotation:)]) {
+            [_mapDelegate viewForAnnotationView:annotationView annotation:annotation];
+        }
+        else {
             annotationView.image = self.defaultImage;
         }
+        
         annotationView.centerOffset = CGPointMake(0,-annotationView.frame.size.height*0.5);
-    }else{
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(viewForAnnotationView:clusteredAnnotation:)]) {
-            [self.mapDelegate viewForAnnotationView:annotationView clusteredAnnotation:annotation];
+    }
+    else {
+        if ([_mapDelegate respondsToSelector:@selector(viewForAnnotationView:clusteredAnnotation:)]) {
+            [_mapDelegate viewForAnnotationView:annotationView clusteredAnnotation:annotation];
         }
     }
+    
     [annotationView setNeedsLayout];
+    
     return annotationView;
 }
 
@@ -109,9 +122,15 @@
         HAClusterAnnotation *annotation = (HAClusterAnnotation *)view.annotation;
         if (annotation.count == 1) {
             [annotation updateSubtitleIfNeeded];
+            
+            if ([_mapDelegate respondsToSelector:@selector(didSelectAnnotationView:)]) {
+                [_mapDelegate didSelectAnnotationView:annotation];
+            }
         }
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(didSelectAnnotationView:)]) {
-            [self.mapDelegate didSelectAnnotationView:annotation];
+        else {
+            if ([_mapDelegate respondsToSelector:@selector(didSelectClusterAnnotationView:)]) {
+                [_mapDelegate didSelectClusterAnnotationView:annotation];
+            }
         }
     }
 }
@@ -122,8 +141,8 @@
         if (annotation.count == 1) {
             [annotation updateSubtitleIfNeeded];
         }
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(didDeselectAnnotationView:)]) {
-            [self.mapDelegate didDeselectAnnotationView:(HAClusterAnnotationView *)view];
+        if ([_mapDelegate respondsToSelector:@selector(didDeselectAnnotationView:)]) {
+            [_mapDelegate didDeselectAnnotationView:(HAClusterAnnotationView *)view];
         }
     }  
 }
@@ -160,11 +179,9 @@
         [self removeAnnotations:[toRemove allObjects]];
         //Oggerschummer
         
-        if (self.mapDelegate && [self.mapDelegate respondsToSelector:@selector(didFinishAddingAnnotations)]) {
-            [self.mapDelegate didFinishAddingAnnotations];
-            
+        if ([_mapDelegate respondsToSelector:@selector(didFinishAddingAnnotations)]) {
+            [_mapDelegate didFinishAddingAnnotations];
         }
-        
     }];
 }
 

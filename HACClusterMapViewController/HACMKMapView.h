@@ -11,16 +11,20 @@
 #import "HAClusterAnnotation.h"
 #import "HAClusterAnnotationView.h"
 
+@class HACMKMapView;
+
 IB_DESIGNABLE
 @protocol HACMKMapViewDelegate <NSObject>
 
 @optional
--(void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView annotation:(HAClusterAnnotation *)annotation;
--(void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView clusteredAnnotation:(HAClusterAnnotation *)annotation;
--(UIColor*)fillColorForAnnotation:(HAClusterAnnotation *)annotation;
--(void)didSelectAnnotationView:(HAClusterAnnotation *)annotationView;
--(void)didDeselectAnnotationView:(HAClusterAnnotationView *)annotationView;
--(void)didFinishAddingAnnotations;
+- (void)mapView:(HACMKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
+- (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView annotation:(HAClusterAnnotation *)annotation;
+- (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView clusteredAnnotation:(HAClusterAnnotation *)annotation;
+- (UIColor*)fillColorForAnnotation:(HAClusterAnnotation *)annotation;
+- (void)didSelectClusterAnnotationView:(HAClusterAnnotation *)clusterAnnotationView;
+- (void)didSelectAnnotationView:(HAClusterAnnotation *)annotationView;
+- (void)didDeselectAnnotationView:(HAClusterAnnotationView *)annotationView;
+- (void)didFinishAddingAnnotations;
 @end
 
 @interface HACMKMapView : MKMapView <MKMapViewDelegate>

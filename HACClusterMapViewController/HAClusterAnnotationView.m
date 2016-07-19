@@ -59,8 +59,7 @@ CGFloat HACScaledValueForValue(CGFloat value)
 //}
 
 
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier borderColor:(UIColor *)borderColor backgroundColor:(UIColor *)backgroundColor textColor:(UIColor *)textColor
-{
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier borderColor:(UIColor *)borderColor backgroundColor:(UIColor *)backgroundColor textColor:(UIColor *)textColor {
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
         self.frame = CGRectMake(0,0,44,44);
@@ -74,8 +73,7 @@ CGFloat HACScaledValueForValue(CGFloat value)
     return self;
 }
 
-- (void)setupLabel
-{
+- (void)setupLabel {
     _countLabel = [[UILabel alloc] initWithFrame:self.frame];
     _countLabel.backgroundColor = [UIColor clearColor];
     _countLabel.textColor = self.circleTextColor;
@@ -89,8 +87,7 @@ CGFloat HACScaledValueForValue(CGFloat value)
     [self addSubview:_countLabel];
 }
 
-- (void)setCount:(NSUInteger)count
-{
+- (void)setCount:(NSUInteger)count {
     _count = count;
     if (_count != 1) {
         _countLabel.hidden = NO;
@@ -101,8 +98,8 @@ CGFloat HACScaledValueForValue(CGFloat value)
         self.countLabel.frame = HACenterRect(newLabelBounds, HACRectCenter(newBounds));
         self.countLabel.text = [@(_count) stringValue];
         
-        
-    }else{
+    }
+    else {
         CGRect newBounds = CGRectMake(0, 0, roundf(44 * HACScaledValueForValue(count)), roundf(44 * HACScaledValueForValue(count)));
         self.frame = HACenterRect(newBounds, self.center);
         
@@ -116,8 +113,7 @@ CGFloat HACScaledValueForValue(CGFloat value)
     [self setNeedsDisplay];
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGContextSetAllowsAntialiasing(context, true);
@@ -129,18 +125,15 @@ CGFloat HACScaledValueForValue(CGFloat value)
     
     if ([self.annotation isKindOfClass:[HAClusterAnnotation class]]){
         if (((HAClusterAnnotation*)self.annotation).count==1){
-        
-        innerCircleFillColor= ((HAClusterAnnotation*)self.annotation).fillColor ;
-        }else{
-                innerCircleFillColor= self.circleBackgroundColor;
+            innerCircleFillColor= ((HAClusterAnnotation*)self.annotation).fillColor ;
         }
-    }else{
+        else {
+            innerCircleFillColor= self.circleBackgroundColor;
+        }
+    }
+    else {
         innerCircleFillColor= self.circleBackgroundColor;
     }
-    
-
- 
-    
     
     CGRect circleFrame = CGRectInset(rect, 4, 4);
     

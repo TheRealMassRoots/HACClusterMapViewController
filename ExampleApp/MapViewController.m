@@ -48,13 +48,14 @@
 # pragma mark - HACMKMapViewDelegate
 
 -(void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView annotation:(HAClusterAnnotation *)annotation{
-    NSLog(@"%i", annotation.isMedical);
     if (annotation.index % 2 == 0) {
         if (annotation.index == 2) {
             annotationView.canShowCallout = NO;
         }
+        
         annotationView.image = [UIImage imageNamed:@"pin_museum"];
-    }else{
+    }
+    else {
         annotationView.image = [UIImage imageNamed:@"pin_coffee"];
     }
 }
