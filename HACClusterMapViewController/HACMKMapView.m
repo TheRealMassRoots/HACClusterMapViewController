@@ -122,16 +122,18 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
     if ([view.annotation isKindOfClass:[HAClusterAnnotation class]]){
         HAClusterAnnotation *annotation = (HAClusterAnnotation *)view.annotation;
+        HAClusterAnnotationView *annotationView = (HAClusterAnnotationView *)view;
+        
         if (annotation.count == 1) {
             [annotation updateSubtitleIfNeeded];
             
-            if ([_mapDelegate respondsToSelector:@selector(didSelectAnnotationView:)]) {
-                [_mapDelegate didSelectAnnotationView:annotation];
+            if ([_mapDelegate respondsToSelector:@selector(didSelectAnnotation:annotationView:)]) {
+                [_mapDelegate didSelectAnnotation:annotation annotationView:annotationView];
             }
         }
         else {
-            if ([_mapDelegate respondsToSelector:@selector(didSelectClusterAnnotationView:)]) {
-                [_mapDelegate didSelectClusterAnnotationView:annotation];
+            if ([_mapDelegate respondsToSelector:@selector(didSelectClusterAnnotation:annotationView:)]) {
+                [_mapDelegate didSelectClusterAnnotation:annotation annotationView:annotationView];
             }
         }
     }
@@ -179,7 +181,6 @@
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self addAnnotations:[toAdd allObjects]];
         [self removeAnnotations:[toRemove allObjects]];
-        //Oggerschummer
         
         if ([_mapDelegate respondsToSelector:@selector(didFinishAddingAnnotations)]) {
             [_mapDelegate didFinishAddingAnnotations];

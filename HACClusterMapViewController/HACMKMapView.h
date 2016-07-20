@@ -21,9 +21,14 @@ IB_DESIGNABLE
 - (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView annotation:(HAClusterAnnotation *)annotation;
 - (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView clusteredAnnotation:(HAClusterAnnotation *)annotation;
 - (UIColor*)fillColorForAnnotation:(HAClusterAnnotation *)annotation;
-- (void)didSelectClusterAnnotationView:(HAClusterAnnotation *)clusterAnnotationView;
-- (void)didSelectAnnotationView:(HAClusterAnnotation *)annotationView;
+
+
+- (void)didSelectClusterAnnotation:(HAClusterAnnotation *)clusterAnnotation annotationView:(HAClusterAnnotationView *)annotationView;
+- (void)didSelectAnnotation:(HAClusterAnnotation *)annotation annotationView:(HAClusterAnnotationView *)annotationView;
 - (void)didDeselectAnnotationView:(HAClusterAnnotationView *)annotationView;
+
+
+
 - (void)didFinishAddingAnnotations;
 @end
 
