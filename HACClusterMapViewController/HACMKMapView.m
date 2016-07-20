@@ -120,7 +120,7 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
-    if ([view.annotation isKindOfClass:[HAClusterAnnotation class]]){
+    if ([view.annotation isKindOfClass:[HAClusterAnnotation class]] && [view isKindOfClass:[HAClusterAnnotationView class]]){
         HAClusterAnnotation *annotation = (HAClusterAnnotation *)view.annotation;
         HAClusterAnnotationView *annotationView = (HAClusterAnnotationView *)view;
         
@@ -140,13 +140,15 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view{
-    if ([view.annotation isKindOfClass:[HAClusterAnnotation class]]){
+    if ([view.annotation isKindOfClass:[HAClusterAnnotation class]] && [view isKindOfClass:[HAClusterAnnotationView class]]){
         HAClusterAnnotation *annotation = (HAClusterAnnotation *)view.annotation;
+        HAClusterAnnotationView *annotationView = (HAClusterAnnotationView *)view;
+        
         if (annotation.count == 1) {
             [annotation updateSubtitleIfNeeded];
         }
-        if ([_mapDelegate respondsToSelector:@selector(didDeselectAnnotationView:)]) {
-            [_mapDelegate didDeselectAnnotationView:(HAClusterAnnotationView *)view];
+        if ([_mapDelegate respondsToSelector:@selector(didDeselectAnnotation:annotationView:)]) {
+            [_mapDelegate didDeselectAnnotation:annotation annotationView:annotationView];
         }
     }  
 }
