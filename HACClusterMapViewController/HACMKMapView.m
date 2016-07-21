@@ -44,12 +44,12 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    [[NSOperationQueue new] addOperationWithBlock:^{
+//    [[NSOperationQueue new] addOperationWithBlock:^{
         double scale = self.bounds.size.width / self.visibleMapRect.size.width;
         NSArray *annotations = [self.coordinateQuadTree clusteredAnnotationsWithinMapRect:mapView.visibleMapRect withZoomScale:scale];
         //TODO: Avoid removing non clustered annotation
         [self updateMapViewAnnotationsWithAnnotations:annotations];
-    }];
+//    }];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
@@ -180,14 +180,14 @@
     NSMutableSet *toRemove = [NSMutableSet setWithSet:before];
     [toRemove minusSet:after];
     
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self addAnnotations:[toAdd allObjects]];
         [self removeAnnotations:[toRemove allObjects]];
         
         if ([_mapDelegate respondsToSelector:@selector(didFinishAddingAnnotations)]) {
             [_mapDelegate didFinishAddingAnnotations];
         }
-    }];
+//    }];
 }
 
 - (void)layoutSubviews{
