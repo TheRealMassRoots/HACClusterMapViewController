@@ -50,6 +50,10 @@
         //TODO: Avoid removing non clustered annotation
         [self updateMapViewAnnotationsWithAnnotations:annotations];
 //    }];
+    
+    if ([_mapDelegate respondsToSelector:@selector(regionDidChangeAnimatd:)]) {
+        [_mapDelegate regionDidChangeAnimatd:animated];
+    }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{

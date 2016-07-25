@@ -18,6 +18,7 @@ IB_DESIGNABLE
 
 @optional
 - (void)regionWillChangeAnimated:(BOOL)animated;
+- (void)regionDidChangeAnimatd:(BOOL)animated;
 - (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView annotation:(HAClusterAnnotation *)annotation;
 - (void)viewForAnnotationView:(HAClusterAnnotationView *)annotationView clusteredAnnotation:(HAClusterAnnotation *)annotation;
 - (UIColor*)fillColorForAnnotation:(HAClusterAnnotation *)annotation;
