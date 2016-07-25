@@ -97,7 +97,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
         case 17:
         case 18:
         case 19:
-            return 1;
+            return 16;
             
         default:
             return 200;
