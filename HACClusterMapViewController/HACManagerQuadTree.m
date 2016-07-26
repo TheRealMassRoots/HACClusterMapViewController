@@ -91,13 +91,14 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
     NSInteger zoomLevel = HACZoomScaleToZoomLevel(zoomScale);
     
     switch (zoomLevel) {
+        case 13:
         case 14:
         case 15:
         case 16:
         case 17:
         case 18:
         case 19:
-            return 16;
+            return 8;
             
         default:
             return 200;
