@@ -119,7 +119,6 @@
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
     for (UIView *view in views) {
-        NSLog(@"adding animation");
         [self addBounceAnnimationToView:view];
     }
 }
