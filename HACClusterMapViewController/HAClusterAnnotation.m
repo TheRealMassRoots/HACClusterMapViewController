@@ -54,14 +54,14 @@
 
 - (void)updateSubtitleIfNeeded {
     
-    if (self.subtitle == nil) {
-        // for the subtitle, we reverse geocode the lat/long for a proper location string name
+    if (self.dispensaryId == nil) {
+        // for the dispensaryId, we reverse geocode the lat/long for a proper location string name
         CLLocation *location = [[CLLocation alloc] initWithLatitude:self.coordinate.latitude longitude:self.coordinate.longitude];
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
         [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
             if (placemarks.count > 0) {
                 CLPlacemark *placemark = placemarks[0];
-                self.subtitle = [NSString stringWithFormat:@"Near %@", [self stringForPlacemark:placemark]];
+                self.dispensaryId = [NSString stringWithFormat:@"Near %@", [self stringForPlacemark:placemark]];
             }
         }];
     }

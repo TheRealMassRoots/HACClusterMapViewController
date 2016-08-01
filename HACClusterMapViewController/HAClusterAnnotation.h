@@ -14,7 +14,7 @@
 
 @property (assign, nonatomic) CLLocationCoordinate2D coordinate;
 @property (copy, nonatomic) NSString *title;
-@property (copy, nonatomic) NSString *subtitle;
+@property (copy, nonatomic) NSString *dispensaryId;
 @property (assign, nonatomic) NSInteger count;
 @property (assign, nonatomic) UIColor* fillColor;
 @property (assign, nonatomic) NSInteger index;

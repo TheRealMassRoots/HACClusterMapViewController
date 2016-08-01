@@ -14,7 +14,7 @@
 #define kLatitude @"lat"
 #define kLongitude @"lng"
 #define kTitle @"title"
-#define kSubtitle @"subtitle"
+#define kSubtitle @"dispensaryId"
 #define kIndex @"index"
 #define kIsMedical @"medical"
 #define kIsRecreational @"recreational"

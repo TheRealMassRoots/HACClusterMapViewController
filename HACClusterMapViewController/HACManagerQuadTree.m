@@ -30,9 +30,9 @@ HACQuadTreeNodeData HACDataFromLine(NSString *line)
     info->itemTitle = malloc(sizeof(char) * title.length + 1);
     strncpy(info->itemTitle, [title UTF8String], title.length + 1);
     
-    NSString *subtitle = [[components lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    info->itemSubtitle = malloc(sizeof(char) * subtitle.length + 1);
-    strncpy(info->itemSubtitle, [subtitle UTF8String], subtitle.length + 1);
+    NSString *dispensaryId = [[components lastObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    info->itemSubtitle = malloc(sizeof(char) * dispensaryId.length + 1);
+    strncpy(info->itemSubtitle, [dispensaryId UTF8String], dispensaryId.length + 1);
     
     if (components.count > 3) {
         NSString *index = [components[3] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -91,6 +91,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
     NSInteger zoomLevel = HACZoomScaleToZoomLevel(zoomScale);
     
     switch (zoomLevel) {
+        case 12:
         case 13:
         case 14:
         case 15:
@@ -217,7 +218,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 annotation.isRecreational = [[isRecreational lastObject] boolValue];
                 annotation.isVerified = [[isVerified lastObject] boolValue];
                 
-                ![[subtitles lastObject]isEqualToString:@""] ? (annotation.subtitle = [subtitles lastObject]) : (annotation.subtitle = nil);
+                ![[subtitles lastObject]isEqualToString:@""] ? (annotation.dispensaryId = [subtitles lastObject]) : (annotation.dispensaryId = nil);
                 [clusteredAnnotations addObject:annotation];
                 
                 if (self.delegate && [self.delegate respondsToSelector:@selector(annotationAddedToCluster:)]) {
