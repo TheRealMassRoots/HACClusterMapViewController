@@ -14,11 +14,12 @@
 #define kLatitude @"lat"
 #define kLongitude @"lng"
 #define kTitle @"title"
-#define kSubtitle @"dispensaryId"
+#define kDispensaryId @"dispensaryId"
 #define kIndex @"index"
 #define kIsMedical @"medical"
 #define kIsRecreational @"recreational"
-#define kIsVerified @"verified"
+#define kIsDelivery @"delivery"
+#define kSortWeight @"sortWeight"
 
 IB_DESIGNABLE
 @protocol HACManagerQuadTreeDelegate <NSObject>
