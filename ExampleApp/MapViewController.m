@@ -27,12 +27,12 @@
     
     // 2. Custom markers example
     NSArray *data = @[
-                      @{kLatitude:@48.47352, kLongitude:@3.87426,  kTitle : @"Title 1", kSubtitle : @"dispensaryId 1",  kIndex : @0, kIsMedical: @NO, kIsRecreational: @YES, kIsVerified: @YES},
-                      @{kLatitude:@52.59758, kLongitude:@-1.93061, kTitle : @"Title 2", kSubtitle : @"dispensaryId 2",  kIndex : @1, kIsMedical: @YES, kIsRecreational: @YES, kIsVerified: @YES},
-                      @{kLatitude:@48.41370, kLongitude:@3.43531,  kTitle : @"Title 3", kSubtitle : @"dispensaryId 3",  kIndex : @2, kIsMedical: @NO, kIsRecreational: @YES, kIsVerified: @YES},
-                      @{kLatitude:@48.31921, kLongitude:@18.10184, kTitle : @"Title 4", kSubtitle : @"dispensaryId 4",  kIndex : @3, kIsMedical: @YES, kIsRecreational: @YES, kIsVerified: @YES},
-                      @{kLatitude:@47.84302, kLongitude:@22.81101, kTitle : @"Title 5", kSubtitle : @"dispensaryId 5",  kIndex : @4, kIsMedical: @NO, kIsRecreational: @YES, kIsVerified: @YES},
-                      @{kLatitude:@60.88622, kLongitude:@26.83792, kTitle : @"Title 6", kSubtitle : @"dispensaryId 6",  kIndex : @5, kIsMedical: @YES, kIsRecreational: @YES, kIsVerified: @YES}
+                      @{kLatitude:@48.47352, kLongitude:@3.87426,  kTitle : @"Title 1", kDispensaryId : @"dispensaryId 1",  kIndex : @0, kIsMedical: @NO, kIsRecreational: @YES, kIsDelivery: @YES, kSortWeight: @1},
+                      @{kLatitude:@52.59758, kLongitude:@-1.93061, kTitle : @"Title 2", kDispensaryId : @"dispensaryId 2",  kIndex : @1, kIsMedical: @YES, kIsRecreational: @YES, kIsDelivery: @YES, kSortWeight: @1},
+                      @{kLatitude:@48.41370, kLongitude:@3.43531,  kTitle : @"Title 3", kDispensaryId : @"dispensaryId 3",  kIndex : @2, kIsMedical: @NO, kIsRecreational: @YES, kIsDelivery: @YES, kSortWeight: @1},
+                      @{kLatitude:@48.31921, kLongitude:@18.10184, kTitle : @"Title 4", kDispensaryId : @"dispensaryId 4",  kIndex : @3, kIsMedical: @YES, kIsRecreational: @YES, kIsDelivery: @YES, kSortWeight: @1},
+                      @{kLatitude:@47.84302, kLongitude:@22.81101, kTitle : @"Title 5", kDispensaryId : @"dispensaryId 5",  kIndex : @4, kIsMedical: @NO, kIsRecreational: @YES, kIsDelivery: @YES, kSortWeight: @1},
+                      @{kLatitude:@60.88622, kLongitude:@26.83792, kTitle : @"Title 6", kDispensaryId : @"dispensaryId 6",  kIndex : @5, kIsMedical: @YES, kIsRecreational: @YES, kIsDelivery: @YES, kSortWeight: @1}
                       ];
     
     [self.mapView.coordinateQuadTree buildTreeWithArray:data];

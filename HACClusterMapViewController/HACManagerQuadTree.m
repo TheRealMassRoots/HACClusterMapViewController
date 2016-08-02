@@ -15,7 +15,8 @@ typedef struct HACItemInfo {
     char* itemIndex;
     char* isMedical;
     char* isRecreational;
-    char* isVerified;
+    char* isDelivery;
+    char* sortWeight;
 } HACHItemInfo;
 
 HACQuadTreeNodeData HACDataFromLine(NSString *line)
@@ -47,9 +48,13 @@ HACQuadTreeNodeData HACDataFromLine(NSString *line)
         info->isRecreational = malloc(sizeof(char) * recreational.length + 1);
         strncpy(info->isRecreational, [recreational UTF8String], recreational.length + 1);
         
-        NSString *verified = [components[6] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        info->isVerified = malloc(sizeof(char) * verified.length + 1);
-        strncpy(info->isVerified, [verified UTF8String], verified.length + 1);
+        NSString *delivery = [components[6] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        info->isDelivery = malloc(sizeof(char) * delivery.length + 1);
+        strncpy(info->isDelivery, [delivery UTF8String], delivery.length + 1);
+        
+        NSString *weight = [components[7] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        info->sortWeight = malloc(sizeof(char) * weight.length + 1);
+        strncpy(info->sortWeight, [weight UTF8String], weight.length + 1);
     }
     
     return HACQuadTreeNodeDataMake(latitude, longitude, info);
@@ -151,8 +156,9 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIndex]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsMedical]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsRecreational]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsVerified]]];
-        [line appendString:[NSString stringWithFormat:@"%@",   [d valueForKey:kSubtitle]]];
+        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsDelivery]]];
+        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kSortWeight]]];
+        [line appendString:[NSString stringWithFormat:@"%@",   [d valueForKey:kDispensaryId]]];
         
         [annotationArray addObject:line];
     }
@@ -190,7 +196,8 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
             NSMutableArray *indexes = [[NSMutableArray alloc] init];
             NSMutableArray *isMedical = [[NSMutableArray alloc] init];
             NSMutableArray *isRecreational = [[NSMutableArray alloc] init];
-            NSMutableArray *isVerified = [[NSMutableArray alloc] init];
+            NSMutableArray *isDelivery = [[NSMutableArray alloc] init];
+            NSMutableArray *sortWeight = [[NSMutableArray alloc] init];
             
             HACQuadTreeGatherDataInRange(self.root, HACBoundingBoxForMapRect(mapRect), ^(HACQuadTreeNodeData data) {
                 totalX += data.x;
@@ -205,7 +212,8 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 }
                 [isMedical addObject:@(info.isMedical)];
                 [isRecreational addObject:@(info.isRecreational)];
-                [isVerified addObject:@(info.isVerified)];
+                [isDelivery addObject:@(info.isDelivery)];
+                [sortWeight addObject:@(info.sortWeight)];
             });
             
             cont++;
@@ -216,7 +224,8 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 annotation.title = [titles lastObject];
                 annotation.isMedical = [[isMedical lastObject] boolValue];
                 annotation.isRecreational = [[isRecreational lastObject] boolValue];
-                annotation.isVerified = [[isVerified lastObject] boolValue];
+                annotation.isDelivery = [[isDelivery lastObject] boolValue];
+                annotation.sortWeight = [[sortWeight lastObject] intValue];
                 
                 ![[subtitles lastObject]isEqualToString:@""] ? (annotation.dispensaryId = [subtitles lastObject]) : (annotation.dispensaryId = nil);
                 [clusteredAnnotations addObject:annotation];
