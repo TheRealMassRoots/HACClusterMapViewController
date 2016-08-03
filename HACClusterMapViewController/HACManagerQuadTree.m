@@ -214,10 +214,29 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 [isRecreational addObject:@(info.isRecreational)];
                 [isDelivery addObject:@(info.isDelivery)];
                 [sortWeight addObject:@(info.sortWeight)];
+                
+                // If the Zoom sacle is 8, no clusters ever ever.
+                if (HACCellSize == 8) {
+                    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(totalX, totalY);
+                    HAClusterAnnotation *annotation = [[HAClusterAnnotation alloc] initWithCoordinate:coordinate count:count index:[[indexes lastObject] integerValue]];
+                    annotation.indexes = [[NSMutableArray alloc]initWithArray:indexes];
+                    annotation.title = [titles lastObject];
+                    annotation.isMedical = [[isMedical lastObject] boolValue];
+                    annotation.isRecreational = [[isRecreational lastObject] boolValue];
+                    annotation.isDelivery = [[isDelivery lastObject] boolValue];
+                    annotation.sortWeight = [[sortWeight lastObject] intValue];
+                    
+                    ![[subtitles lastObject]isEqualToString:@""] ? (annotation.dispensaryId = [subtitles lastObject]) : (annotation.dispensaryId = nil);
+                    [clusteredAnnotations addObject:annotation];
+                    
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(annotationAddedToCluster:)]) {
+                        [self.delegate annotationAddedToCluster:annotation];
+                    }
+                }
             });
             
             cont++;
-            if (count == 1) {
+            if (count == 1 && HACCellSize != 8) {
                 CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(totalX, totalY);
                 HAClusterAnnotation *annotation = [[HAClusterAnnotation alloc] initWithCoordinate:coordinate count:count index:[[indexes lastObject] integerValue]];
                 annotation.indexes = [[NSMutableArray alloc]initWithArray:indexes];
@@ -235,7 +254,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 }
             }
             
-            if (count > 1) {
+            if (count > 1 && HACCellSize != 8) {
                 CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(totalX / count, totalY / count);
                 HAClusterAnnotation *annotation = [[HAClusterAnnotation alloc] initWithCoordinate:coordinate count:count index:[[indexes lastObject] integerValue]];
                 annotation.indexes = [[NSMutableArray alloc]initWithArray:indexes];
