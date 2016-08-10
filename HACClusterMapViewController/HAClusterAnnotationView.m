@@ -142,7 +142,8 @@ CGFloat HACScaledValueForValue(CGFloat value)
     CGContextStrokeEllipseInRect(context, circleFrame);
     
     [innerCircleStrokeColor setStroke];
-    CGContextSetLineWidth(context, 4);
+    CGContextSetLineWidth(context, 10);
+    CGContextSetAlpha(context, 0.8);
     CGContextStrokeEllipseInRect(context, circleFrame);
     
     [innerCircleFillColor setFill];
