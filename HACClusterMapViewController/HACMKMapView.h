@@ -26,6 +26,7 @@ IB_DESIGNABLE
 - (void)didSelectAnnotation:(HAClusterAnnotation *)annotation annotationView:(HAClusterAnnotationView *)annotationView;
 - (void)didDeselectAnnotation:(HAClusterAnnotation *)annotation annotationView:(HAClusterAnnotationView *)annotationView;
 - (void)didFinishAddingAnnotations;
+- (void)didAddAnnotationViews:(NSArray *)views;
 @end
 
 @interface HACMKMapView : MKMapView <MKMapViewDelegate>

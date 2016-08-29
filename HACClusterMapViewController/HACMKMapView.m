@@ -118,6 +118,10 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+    if ([_mapDelegate respondsToSelector:@selector(didAddAnnotationViews:)]) {
+        [_mapDelegate didAddAnnotationViews:views];
+    }
+    
     for (UIView *view in views) {
         [self addBounceAnnimationToView:view];
     }
