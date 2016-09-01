@@ -22,6 +22,7 @@
 @property (assign, nonatomic) BOOL isMedical;
 @property (assign, nonatomic) BOOL isRecreational;
 @property (assign, nonatomic) BOOL isDelivery;
+@property (assign, nonatomic) BOOL isDeliveryOnly;
 @property (assign, nonatomic) NSInteger sortWeight;
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate count:(NSInteger)count index:(NSInteger)index;

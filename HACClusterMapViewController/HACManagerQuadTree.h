@@ -19,6 +19,7 @@
 #define kIsMedical @"medical"
 #define kIsRecreational @"recreational"
 #define kIsDelivery @"delivery"
+#define kIsDeliveryOnly @"deliveryOnly"
 #define kSortWeight @"sortWeight"
 
 IB_DESIGNABLE

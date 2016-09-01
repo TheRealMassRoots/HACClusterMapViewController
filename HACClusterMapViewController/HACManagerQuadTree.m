@@ -16,6 +16,7 @@ typedef struct HACItemInfo {
     char* isMedical;
     char* isRecreational;
     char* isDelivery;
+    char* isDeliveryOnly;
     char* sortWeight;
 } HACHItemInfo;
 
@@ -52,7 +53,11 @@ HACQuadTreeNodeData HACDataFromLine(NSString *line)
         info->isDelivery = malloc(sizeof(char) * delivery.length + 1);
         strncpy(info->isDelivery, [delivery UTF8String], delivery.length + 1);
         
-        NSString *weight = [components[7] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *deliveryOnly = [components[7] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        info->isDeliveryOnly = malloc(sizeof(char) * deliveryOnly.length + 1);
+        strncpy(info->isDeliveryOnly, [deliveryOnly UTF8String], deliveryOnly.length + 1);
+        
+        NSString *weight = [components[8] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         info->sortWeight = malloc(sizeof(char) * weight.length + 1);
         strncpy(info->sortWeight, [weight UTF8String], weight.length + 1);
     }
@@ -157,6 +162,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsMedical]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsRecreational]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsDelivery]]];
+        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsDeliveryOnly]]];
         [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kSortWeight]]];
         [line appendString:[NSString stringWithFormat:@"%@",   [d valueForKey:kDispensaryId]]];
         
@@ -197,6 +203,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
             NSMutableArray *isMedical = [[NSMutableArray alloc] init];
             NSMutableArray *isRecreational = [[NSMutableArray alloc] init];
             NSMutableArray *isDelivery = [[NSMutableArray alloc] init];
+            NSMutableArray *isDeliveryOnly = [[NSMutableArray alloc] init];
             NSMutableArray *sortWeight = [[NSMutableArray alloc] init];
             
             HACQuadTreeGatherDataInRange(self.root, HACBoundingBoxForMapRect(mapRect), ^(HACQuadTreeNodeData data) {
@@ -213,6 +220,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 [isMedical addObject:@(info.isMedical)];
                 [isRecreational addObject:@(info.isRecreational)];
                 [isDelivery addObject:@(info.isDelivery)];
+                [isDeliveryOnly addObject:@(info.isDeliveryOnly)];
                 [sortWeight addObject:@(info.sortWeight)];
                 
                 // If the Zoom sacle is 8, no clusters ever ever.
@@ -224,6 +232,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                     annotation.isMedical = [[isMedical lastObject] boolValue];
                     annotation.isRecreational = [[isRecreational lastObject] boolValue];
                     annotation.isDelivery = [[isDelivery lastObject] boolValue];
+                    annotation.isDeliveryOnly = [[isDeliveryOnly lastObject] boolValue];
                     annotation.sortWeight = [[sortWeight lastObject] intValue];
                     
                     ![[subtitles lastObject]isEqualToString:@""] ? (annotation.dispensaryId = [subtitles lastObject]) : (annotation.dispensaryId = nil);
@@ -244,6 +253,7 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
                 annotation.isMedical = [[isMedical lastObject] boolValue];
                 annotation.isRecreational = [[isRecreational lastObject] boolValue];
                 annotation.isDelivery = [[isDelivery lastObject] boolValue];
+                annotation.isDeliveryOnly = [[isDeliveryOnly lastObject] boolValue];
                 annotation.sortWeight = [[sortWeight lastObject] intValue];
                 
                 ![[subtitles lastObject]isEqualToString:@""] ? (annotation.dispensaryId = [subtitles lastObject]) : (annotation.dispensaryId = nil);
