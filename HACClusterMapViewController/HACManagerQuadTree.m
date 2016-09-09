@@ -22,7 +22,7 @@ typedef struct HACItemInfo {
 
 HACQuadTreeNodeData HACDataFromLine(NSString *line)
 {
-    NSArray *components = [line componentsSeparatedByString:@","];
+    NSArray *components = [line componentsSeparatedByString:@"|||"];
     double latitude = [components[1] doubleValue];
     double longitude = [components[0] doubleValue];
     
@@ -155,15 +155,15 @@ float HACCellSizeForZoomScale(MKZoomScale zoomScale)
     for (int i = 0; i < data.count; i++) {
         NSDictionary *d = data[i];
         NSMutableString *line = [NSMutableString new];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kLongitude]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kLatitude]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kTitle]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIndex]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsMedical]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsRecreational]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsDelivery]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kIsDeliveryOnly]]];
-        [line appendString:[NSString stringWithFormat:@"%@, ", [d valueForKey:kSortWeight]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kLongitude]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kLatitude]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kTitle]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kIndex]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kIsMedical]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kIsRecreational]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kIsDelivery]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kIsDeliveryOnly]]];
+        [line appendString:[NSString stringWithFormat:@"%@||| ", [d valueForKey:kSortWeight]]];
         [line appendString:[NSString stringWithFormat:@"%@",   [d valueForKey:kDispensaryId]]];
         
         [annotationArray addObject:line];
