@@ -135,8 +135,8 @@
         if (annotation.count == 1) {
             [annotation updateSubtitleIfNeeded];
             
-            if ([_mapDelegate respondsToSelector:@selector(didSelectAnnotation:annotationView:)]) {
-                [_mapDelegate didSelectAnnotation:annotation annotationView:annotationView];
+            if ([_mapDelegate respondsToSelector:@selector(selectAnnotation:annotationView:)]) {
+                [_mapDelegate selectAnnotation:annotation annotationView:annotationView];
             }
         }
         else {
